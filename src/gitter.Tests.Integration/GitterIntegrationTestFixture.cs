@@ -4,7 +4,7 @@ using System.IO;
 
 namespace gitter.Tests.Integration
 {
-    [TestFixture]
+    [TestFixture(Category="Integration")]
     public class GitterIntegrationTestFixture : BaseIntegrationTestFixture
     {
         [Test]

@@ -3,10 +3,10 @@ using NUnit.Framework;
 
 namespace gitter.Tests.Unit
 {
-    [TestFixture]
+    [TestFixture(Category="Unit")]
     public class GitterUnitTestFixture : BaseUnitTestFixture
     {
-        [Test]
+        //[Test]
         public void Test_Init()
         {
             throw new NotImplementedException ();
