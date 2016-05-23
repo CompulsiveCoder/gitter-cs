@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitter", "gitter\gitter.csproj", "{F14830B5-E2A0-45B1-A2E3-D95D839429E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitter.Tests", "gitter.Tests\gitter.Tests.csproj", "{E888859B-8A06-4BFA-8915-7F614C2A571C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitter.Tests.Unit", "gitter.Tests.Unit\gitter.Tests.Unit.csproj", "{E4C6419C-8C72-45C7-951F-C5A0DC4337C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitter.Tests.Integration", "gitter.Tests.Integration\gitter.Tests.Integration.csproj", "{B6CC396A-6691-4DC5-BBFD-AEDF3400A301}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6CC396A-6691-4DC5-BBFD-AEDF3400A301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6CC396A-6691-4DC5-BBFD-AEDF3400A301}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6CC396A-6691-4DC5-BBFD-AEDF3400A301}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6CC396A-6691-4DC5-BBFD-AEDF3400A301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4C6419C-8C72-45C7-951F-C5A0DC4337C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4C6419C-8C72-45C7-951F-C5A0DC4337C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4C6419C-8C72-45C7-951F-C5A0DC4337C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4C6419C-8C72-45C7-951F-C5A0DC4337C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E888859B-8A06-4BFA-8915-7F614C2A571C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E888859B-8A06-4BFA-8915-7F614C2A571C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E888859B-8A06-4BFA-8915-7F614C2A571C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E888859B-8A06-4BFA-8915-7F614C2A571C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14830B5-E2A0-45B1-A2E3-D95D839429E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14830B5-E2A0-45B1-A2E3-D95D839429E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14830B5-E2A0-45B1-A2E3-D95D839429E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14830B5-E2A0-45B1-A2E3-D95D839429E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
