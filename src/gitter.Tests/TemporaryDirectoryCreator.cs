@@ -11,12 +11,15 @@ namespace gitter.Tests
 
 		public string Create ()
 		{
-			var tmpDir = Path.GetFullPath (".tmp");
+			var tmpDir = Path.GetFullPath ("_tmp");
 
 			if (!Directory.Exists (tmpDir))
 				Directory.CreateDirectory (tmpDir);
 
-			var uniqueTmpDir = Path.Combine (tmpDir, Guid.NewGuid ().ToString ());
+            var guid = Guid.NewGuid ().ToString();
+            var key = guid.Substring (0, guid.IndexOf ("-"));
+
+			var uniqueTmpDir = Path.Combine (tmpDir, key);
 
 			Directory.CreateDirectory (uniqueTmpDir);
 

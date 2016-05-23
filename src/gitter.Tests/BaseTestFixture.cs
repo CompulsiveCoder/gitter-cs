@@ -7,8 +7,9 @@ namespace gitter.Tests
     public abstract class BaseTestFixture
     {
         public string OriginalDirectory;
+        public string TemporaryDirectory;
 
-        public bool DeleteTemporaryDirectory = false;
+        public bool DeleteTemporaryDirectory = true;
 
         public BaseTestFixture ()
         {
@@ -19,24 +20,22 @@ namespace gitter.Tests
         {
             OriginalDirectory = Environment.CurrentDirectory;
 
-            var tmpDir = new TemporaryDirectoryCreator ().Create ();
+            TemporaryDirectory = new TemporaryDirectoryCreator ().Create ();
 
-            Directory.SetCurrentDirectory (tmpDir);
+            Directory.SetCurrentDirectory (TemporaryDirectory);
 
             Console.WriteLine ("Current directory:");
-            Console.WriteLine (tmpDir);
+            Console.WriteLine (TemporaryDirectory);
             Console.WriteLine ();
         }
 
         [TearDown]
         public void TearDown()
         {
-            var tmpDir = Environment.CurrentDirectory;
-
             Directory.SetCurrentDirectory (OriginalDirectory);
 
-            if (DeleteTemporaryDirectory && tmpDir.ToLower().Contains(".tmp")) {
-                Directory.Delete (tmpDir, true);
+            if (DeleteTemporaryDirectory && TemporaryDirectory.ToLower().Contains("_tmp")) {
+                Directory.Delete (TemporaryDirectory, true);
             }
         }
     }
