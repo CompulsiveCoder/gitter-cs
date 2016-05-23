@@ -10,7 +10,7 @@ namespace gitter.Tests.Integration
         [Test]
         public void Test_Init_Add_Commit_Clone()
         {
-            /*var gitter = new Gitter ();
+            var gitter = new Gitter ();
 
             // Create a temporary path to the source project
             var tmpProjectDir = Path.GetFullPath("TestProject");
@@ -39,11 +39,12 @@ namespace gitter.Tests.Integration
 
             Console.WriteLine ("Adding test file...");
 
-            // Add the test file
-            gitter.Add(testFile);
-
             Console.WriteLine ("Committing...");
 
+            /*// Add the test file
+            gitter.Add(testFile);
+
+            
             // Commit the test file
             gitter.Commit();
 
@@ -52,14 +53,15 @@ namespace gitter.Tests.Integration
             // Clone the temporary project into a new directory
             gitter.Clone (tmpProjectDir, tmpProjectCloneDir);
 
-            var clonedTestFile = tmpProjectCloneDir
+             * var clonedTestFile = tmpProjectCloneDir
                 + Path.DirectorySeparatorChar
                 + "TestFile.txt";
 
             // Assert that the file was clone
             Assert.IsTrue(File.Exists(clonedTestFile), "The test file wasn't cloned.");
 
-            Assert.AreEqual(testContents, File.ReadAllText(clonedTestFile), "The cloned test file doesn't have the expected contents.");*/
+            Assert.AreEqual(testContents, File.ReadAllText(clonedTestFile), "The cloned test file doesn't have the expected contents.");
+            */
         }
     }
 }
