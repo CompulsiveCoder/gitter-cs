@@ -41,10 +41,10 @@ namespace gitter.Tests.Integration
 
             Console.WriteLine ("Committing...");
 
-            /*// Add the test file
-            gitter.Add(testFile);
+            // Add the test file
+           // gitter.Add(testFile);
 
-            
+            /*
             // Commit the test file
             gitter.Commit();
 

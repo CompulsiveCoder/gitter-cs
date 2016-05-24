@@ -6,12 +6,12 @@ namespace gitter
 {
     public class Gitter
     {
-        public ProcessStarter Starter { get;set; }
+        public ProcessStarter ProcessStarter { get;set; }
         public DirectoryMover DirectoryMover { get; set; }
 
         public Gitter ()
         {
-            Starter = new ProcessStarter();
+            ProcessStarter = new ProcessStarter();
             DirectoryMover = new DirectoryMover ();
         }
 
@@ -29,7 +29,7 @@ namespace gitter
             // TODO: Make this configurable and ensure it works on windows
             var gitExe = "git";
 
-            Starter.Start(
+            ProcessStarter.Start(
                 gitExe,
                 arguments
             );
@@ -48,12 +48,16 @@ namespace gitter
 
         public void Add(string file)
         {
+            var relativePath = PathUtility.EnsureRelative (file, Environment.CurrentDirectory);
+
             Console.WriteLine ("");
             Console.WriteLine ("Adding file to git:");
-            Console.WriteLine (file);
+            Console.WriteLine ("  " + relativePath);
+            Console.WriteLine ("Working directory:");
+            Console.WriteLine ("  " + Environment.CurrentDirectory);
             Console.WriteLine ("");
 
-            Git ("add", Starter.FixArgument(file));
+            Git ("add", ProcessStarter.FixArgument(relativePath));
         }
 
         public void AddTo(string path, string file)
@@ -64,7 +68,7 @@ namespace gitter
             Console.WriteLine (file);
             Console.WriteLine ("");
 
-            GitIn (path, "add", Starter.FixArgument(file));
+            GitIn (path, "add", ProcessStarter.FixArgument(file));
         }
 
         public void AddRemote(string name, string path)
@@ -80,7 +84,7 @@ namespace gitter
                 "remote",
                 "add",
                 name,
-                Starter.FixArgument(path)
+                ProcessStarter.FixArgument(path)
             );
         }
 
@@ -98,7 +102,7 @@ namespace gitter
                 "remote",
                 "add",
                 name,
-                Starter.FixArgument(path)
+                ProcessStarter.FixArgument(path)
             );
         }
 
@@ -108,7 +112,7 @@ namespace gitter
         {
             Clone(
                 sourceDir,
-                Starter.FixArgument(Environment.CurrentDirectory)
+                ProcessStarter.FixArgument(Environment.CurrentDirectory)
             );
         }
 
@@ -142,8 +146,8 @@ namespace gitter
                 args.Add ("-b");
                 args.Add (branch);
             }
-            args.Add (Starter.FixArgument (sourceDir));
-            args.Add (Starter.FixArgument (tmpDir));
+            args.Add (ProcessStarter.FixArgument (sourceDir));
+            args.Add (ProcessStarter.FixArgument (tmpDir));
             args.Add ("--verbose");
 
             Git (args.ToArray());
@@ -253,12 +257,12 @@ namespace gitter
             Console.WriteLine (destination);
             Console.WriteLine ("");
 
-            GitIn (directory, "push", Starter.FixArgument(destination));
+            GitIn (directory, "push", ProcessStarter.FixArgument(destination));
         }
 
         public void Move(string fromPath, string toPath)
         {
-            Git("mv", Starter.FixArgument(fromPath), Starter.FixArgument(toPath));
+            Git("mv", ProcessStarter.FixArgument(fromPath), ProcessStarter.FixArgument(toPath));
         }
 
         public void Reset(params string[] arguments)

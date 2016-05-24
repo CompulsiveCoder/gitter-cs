@@ -21,7 +21,7 @@ namespace gitter.Tests.Unit
         }
      
 
-        [Test]
+        //[Test]
         public void Test_AddFile()
         {
             var gitter = new Gitter ();

@@ -11,7 +11,11 @@ namespace gitter.Tests
 
 		public string Create ()
 		{
-			var tmpDir = Path.GetFullPath ("_tmp");
+            var projectDir = GetProjectDirectory ();
+
+            var projectName = Path.GetFileName (projectDir);
+
+			var tmpDir = projectDir + ".tmp";
 
 			if (!Directory.Exists (tmpDir))
 				Directory.CreateDirectory (tmpDir);
@@ -25,6 +29,24 @@ namespace gitter.Tests
 
 			return uniqueTmpDir;
 		}
+
+        public string GetProjectDirectory()
+        {
+            // TODO: Move this function to a dedicated component
+
+            var projectDir = Environment.CurrentDirectory;
+
+            var debugString = "/bin/Debug";
+            var releaseString = "/bin/Release";
+
+            if (projectDir.EndsWith (debugString))
+                projectDir = projectDir.Replace (debugString, "");
+            if (projectDir.EndsWith (releaseString))
+                projectDir = projectDir.Replace (releaseString, "");
+
+            return projectDir;
+        }
+
 	}
 }
 

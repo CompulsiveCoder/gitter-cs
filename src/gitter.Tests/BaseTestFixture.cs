@@ -9,7 +9,7 @@ namespace gitter.Tests
         public string OriginalDirectory;
         public string TemporaryDirectory;
 
-        public bool DeleteTemporaryDirectory = true;
+        public bool DeleteTemporaryDirectory = false;
 
         public BaseTestFixture ()
         {
@@ -32,9 +32,11 @@ namespace gitter.Tests
         [TearDown]
         public void TearDown()
         {
+            Console.WriteLine ("Cleaning up...");
+
             Directory.SetCurrentDirectory (OriginalDirectory);
 
-            if (DeleteTemporaryDirectory && TemporaryDirectory.ToLower().Contains("_tmp")) {
+            if (DeleteTemporaryDirectory && TemporaryDirectory.ToLower().Contains(".tmp")) {
                 Directory.Delete (TemporaryDirectory, true);
             }
         }
