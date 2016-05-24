@@ -13,8 +13,6 @@ namespace gitter.Tests
 		{
             var projectDir = GetProjectDirectory ();
 
-            var projectName = Path.GetFileName (projectDir);
-
 			var tmpDir = projectDir + "-tmp";
 
 			if (!Directory.Exists (tmpDir))

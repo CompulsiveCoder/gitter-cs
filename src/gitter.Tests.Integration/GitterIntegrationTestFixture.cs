@@ -17,63 +17,71 @@ namespace gitter.Tests.Integration
 
             var gitter = new Gitter ();
 
-            // Create a temporary path to the source project
-            var tmpProjectDir = Path.GetFullPath("TestProject");
+            var testProjectName = "TestProject";
+
+            // Create a path to the test project
+            var testProjectDir = Path.GetFullPath (testProjectName);
 
             // Create the source project directory
-            Directory.CreateDirectory(tmpProjectDir);
+            Directory.CreateDirectory (testProjectDir);
 
             // Create a temporary path to the destination project
-            var tmpProjectCloneDir = Path.GetFullPath("TestProjectClone");
+            var tmpProjectCloneDir = Path.GetFullPath (testProjectName + "Clone");
 
             // Create the destination project directory
-            Directory.CreateDirectory(tmpProjectCloneDir);
+            Directory.CreateDirectory (tmpProjectCloneDir);
+
+            // Move to the test project directory
+            Directory.SetCurrentDirectory (testProjectDir);
 
             Console.WriteLine ("");
             Console.WriteLine ("===== Executing Test =====");
             Console.WriteLine ("");
 
             // Initialize source git repo
-            gitter.Init(tmpProjectDir);
+            gitter.Init (testProjectDir);
+
+            var testFileName = "TestFile.txt";
 
             // Create a test file path
-            var testFile = tmpProjectDir
-                + Path.DirectorySeparatorChar
-                + "TestFile.cs";
+            var testFilePath = testProjectDir
+                           + Path.DirectorySeparatorChar
+                           + testFileName;
 
-            var testContents = "Test contents";
+            var testFileContent = "Test content";
 
             // Create the test file
-            File.WriteAllText(testFile, testContents);
+            File.WriteAllText (testFilePath, testFileContent);
 
             Console.WriteLine ("Adding test file...");
 
             // Add the test file
-            //gitter.Add(testFile);
-
-
-
+            gitter.Add(testFilePath);
 
             Console.WriteLine ("Committing...");
 
             // Commit the test file
-            gitter.Commit();
+            gitter.Commit ();
 
-            /*
-            Console.WriteLine("Cloning...");
+            Console.WriteLine ("Cloning...");
 
             // Clone the temporary project into a new directory
-            gitter.Clone (tmpProjectDir, tmpProjectCloneDir);
+            gitter.Clone (".", "../" + testProjectName + "Clone");
 
-             * var clonedTestFile = tmpProjectCloneDir
-                + Path.DirectorySeparatorChar
-                + "TestFile.txt";
+            var clonedTestFile = tmpProjectCloneDir
+                                 + Path.DirectorySeparatorChar
+                                 + testFileName;
+
+
+            Console.WriteLine ("");
+            Console.WriteLine ("===== Checking Result =====");
+            Console.WriteLine ("");
+
 
             // Assert that the file was clone
-            Assert.IsTrue(File.Exists(clonedTestFile), "The test file wasn't cloned.");
+            Assert.IsTrue (File.Exists (clonedTestFile), "The test file wasn't cloned.");
 
-            Assert.AreEqual(testContents, File.ReadAllText(clonedTestFile), "The cloned test file doesn't have the expected contents.");
-            */
+            Assert.AreEqual (testFileContent, File.ReadAllText (clonedTestFile), "The cloned test file doesn't have the expected contents.");
         }
     }
 }

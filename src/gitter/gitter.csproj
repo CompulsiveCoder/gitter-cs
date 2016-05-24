@@ -35,7 +35,6 @@
     <Compile Include="Gitter.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="DirectoryMover.cs" />
-    <Compile Include="PathUtility.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

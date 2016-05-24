@@ -6,6 +6,19 @@ namespace gitter
 {
     public class Gitter
     {
+        private string workingDirectory;
+        public string WorkingDirectory
+        {
+            get{
+                if (!String.IsNullOrEmpty (workingDirectory))
+                    return workingDirectory;
+                else
+                    return Environment.CurrentDirectory;
+            }
+            set{
+                workingDirectory = value;
+            }
+        }
         public ProcessStarter ProcessStarter { get;set; }
         public DirectoryMover DirectoryMover { get; set; }
 
@@ -48,16 +61,17 @@ namespace gitter
 
         public void Add(string file)
         {
-            var relativePath = PathUtility.EnsureRelative (file, Environment.CurrentDirectory);
+            // TODO: Reimplement or remove
+            //var relativePath = PathUtility.EnsureRelative (file, Environment.CurrentDirectory);
 
             Console.WriteLine ("");
             Console.WriteLine ("Adding file to git:");
-            Console.WriteLine ("  " + relativePath);
+            Console.WriteLine ("  " + file);
             Console.WriteLine ("Working directory:");
             Console.WriteLine ("  " + Environment.CurrentDirectory);
             Console.WriteLine ("");
 
-            Git ("add", "\"" + ProcessStarter.FixArgument(relativePath) + "\"");
+            Git ("add", "\"" + ProcessStarter.FixArgument(file) + "\"");
         }
 
         public void AddTo(string path, string file)
@@ -134,10 +148,15 @@ namespace gitter
             Console.WriteLine ("Cloning...");
             Console.WriteLine ("Source: " + sourceDir);
             Console.WriteLine ("Destination: " + destinationDir);
+            Console.WriteLine ("Working directory: " + WorkingDirectory);
 
             // Create a temporary directory path to clone to
             // (the temporary folder works around the issue of cloning into existing directory)
             var tmpDir = Path.Combine(destinationDir, "_tmpclone");
+
+            var relativeSourceDir = ProcessStarter.FixArgument (sourceDir);
+
+            var relativeTmpDir = ProcessStarter.FixArgument (tmpDir);
 
             var args = new List<string> ();
 
@@ -146,8 +165,8 @@ namespace gitter
                 args.Add ("-b");
                 args.Add (branch);
             }
-            args.Add (ProcessStarter.FixArgument (sourceDir));
-            args.Add (ProcessStarter.FixArgument (tmpDir));
+            args.Add ("\"" + relativeSourceDir + "\"");
+            args.Add ("\"" + relativeTmpDir + "\"");
             args.Add ("--verbose");
 
             Git (args.ToArray());

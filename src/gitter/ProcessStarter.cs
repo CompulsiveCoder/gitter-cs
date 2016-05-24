@@ -107,7 +107,7 @@ namespace gitter
             info.CreateNoWindow = true;
 
             // TODO: Remove if not needed
-            info.ErrorDialog = true;
+            //info.ErrorDialog = true;
 
             // Start the process
             Process process = new Process();
@@ -123,7 +123,6 @@ namespace gitter
                 (
                     delegate(object sender, DataReceivedEventArgs e)
                     {
-                        throw new Exception(e.Data);
                         Console.SetOut (c);
                         c.WriteLine(e.Data);
                         OutputBuilder.Append(e.Data);
