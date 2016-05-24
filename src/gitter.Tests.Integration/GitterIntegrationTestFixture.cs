@@ -57,7 +57,7 @@ namespace gitter.Tests.Integration
             Console.WriteLine ("Committing...");
 
             // Commit the test file
-            //gitter.Commit();
+            gitter.Commit();
 
             /*
             Console.WriteLine("Cloning...");
