@@ -36,7 +36,7 @@ namespace gitter.Tests
 
             Directory.SetCurrentDirectory (OriginalDirectory);
 
-            if (DeleteTemporaryDirectory && TemporaryDirectory.ToLower().Contains(".tmp")) {
+            if (DeleteTemporaryDirectory && TemporaryDirectory.ToLower().Contains("-tmp")) {
                 Directory.Delete (TemporaryDirectory, true);
             }
         }

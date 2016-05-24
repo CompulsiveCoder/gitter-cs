@@ -82,8 +82,6 @@ namespace gitter
         public virtual Process Start (string command, string arguments)
         {
             Console.WriteLine ("");
-            Console.WriteLine ("--------------------");
-            Console.WriteLine ("");
             Console.WriteLine ("Starting process:");
             Console.WriteLine (command + " " + arguments);
             Console.WriteLine ("");
@@ -125,6 +123,7 @@ namespace gitter
                 (
                     delegate(object sender, DataReceivedEventArgs e)
                     {
+                        throw new Exception(e.Data);
                         Console.SetOut (c);
                         c.WriteLine(e.Data);
                         OutputBuilder.Append(e.Data);
@@ -173,11 +172,6 @@ namespace gitter
                     Console.WriteLine("");
                 }
             }
-
-
-            Console.WriteLine("");
-            Console.WriteLine("--------------------");
-            Console.WriteLine("");
 
             return process;
         }

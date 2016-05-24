@@ -57,7 +57,7 @@ namespace gitter
             Console.WriteLine ("  " + Environment.CurrentDirectory);
             Console.WriteLine ("");
 
-            Git ("add", ProcessStarter.FixArgument(relativePath));
+            Git ("add", "\"" + ProcessStarter.FixArgument(relativePath) + "\"");
         }
 
         public void AddTo(string path, string file)

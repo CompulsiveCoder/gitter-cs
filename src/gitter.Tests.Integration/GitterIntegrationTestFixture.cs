@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using System.IO;
+using System.Threading;
 
 namespace gitter.Tests.Integration
 {
@@ -10,6 +11,10 @@ namespace gitter.Tests.Integration
         [Test]
         public void Test_Init_Add_Commit_Clone()
         {
+            Console.WriteLine ("");
+            Console.WriteLine ("===== Preparing Test =====");
+            Console.WriteLine ("");
+
             var gitter = new Gitter ();
 
             // Create a temporary path to the source project
@@ -24,13 +29,17 @@ namespace gitter.Tests.Integration
             // Create the destination project directory
             Directory.CreateDirectory(tmpProjectCloneDir);
 
+            Console.WriteLine ("");
+            Console.WriteLine ("===== Executing Test =====");
+            Console.WriteLine ("");
+
             // Initialize source git repo
             gitter.Init(tmpProjectDir);
 
             // Create a test file path
             var testFile = tmpProjectDir
                 + Path.DirectorySeparatorChar
-                + "TestFile.txt";
+                + "TestFile.cs";
 
             var testContents = "Test contents";
 
@@ -39,15 +48,18 @@ namespace gitter.Tests.Integration
 
             Console.WriteLine ("Adding test file...");
 
+            // Add the test file
+            //gitter.Add(testFile);
+
+
+
+
             Console.WriteLine ("Committing...");
 
-            // Add the test file
-           // gitter.Add(testFile);
+            // Commit the test file
+            //gitter.Commit();
 
             /*
-            // Commit the test file
-            gitter.Commit();
-
             Console.WriteLine("Cloning...");
 
             // Clone the temporary project into a new directory
