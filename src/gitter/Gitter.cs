@@ -6,118 +6,13 @@ namespace gitter
 {
     public class Gitter
     {
-        private string workingDirectory;
-        public string WorkingDirectory
-        {
-            get{
-                if (!String.IsNullOrEmpty (workingDirectory))
-                    return workingDirectory;
-                else
-                    return Environment.CurrentDirectory;
-            }
-            set{
-                workingDirectory = value;
-            }
-        }
-        public ProcessStarter ProcessStarter { get;set; }
+        public GitProcessStarter GitProcess { get;set; }
         public DirectoryMover DirectoryMover { get; set; }
 
-        public Gitter ()
+        public Gitter()
         {
-            ProcessStarter = new ProcessStarter();
+            GitProcess = new GitProcessStarter();
             DirectoryMover = new DirectoryMover ();
-        }
-
-        public void Git(string command, params string[] arguments)
-        {
-            var list = new List<string>();
-            list.Add(command);
-            list.AddRange(arguments);
-
-            Git(list.ToArray());
-        }
-
-        public void Git(params string[] arguments)
-        {
-            // TODO: Make this configurable and ensure it works on windows
-            var gitExe = "git";
-
-            ProcessStarter.Start(
-                gitExe,
-                arguments
-            );
-        }
-
-        public void GitIn(string workingDirectory, params string[] arguments)
-        {
-            var originalDir = Environment.CurrentDirectory;
-
-            Environment.CurrentDirectory = workingDirectory;
-
-            Git(arguments);
-
-            Environment.CurrentDirectory = originalDir;
-        }
-
-        public void Add(string file)
-        {
-            // TODO: Reimplement or remove
-            //var relativePath = PathUtility.EnsureRelative (file, Environment.CurrentDirectory);
-
-            Console.WriteLine ("");
-            Console.WriteLine ("Adding file to git:");
-            Console.WriteLine ("  " + file);
-            Console.WriteLine ("Working directory:");
-            Console.WriteLine ("  " + Environment.CurrentDirectory);
-            Console.WriteLine ("");
-
-            Git ("add", "\"" + ProcessStarter.FixArgument(file) + "\"");
-        }
-
-        public void AddTo(string path, string file)
-        {
-
-            Console.WriteLine ("");
-            Console.WriteLine ("Adding file to git:");
-            Console.WriteLine (file);
-            Console.WriteLine ("");
-
-            GitIn (path, "add", ProcessStarter.FixArgument(file));
-        }
-
-        public void AddRemote(string name, string path)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Adding git remote...");
-            Console.WriteLine("Current directory:" + name);
-            Console.WriteLine("Name:" + name);
-            Console.WriteLine("Path:" + path);
-            Console.WriteLine("");
-
-            Git(
-                "remote",
-                "add",
-                name,
-                ProcessStarter.FixArgument(path)
-            );
-        }
-
-        public void AddRemoteTo(string directory, string name, string path)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("Adding git remote...");
-            Console.WriteLine("Current directory:" + directory);
-            Console.WriteLine("Name:" + name);
-            Console.WriteLine("Path:" + path);
-            Console.WriteLine("");
-
-            GitIn (
-                directory,
-                "remote",
-                "add",
-                name,
-                ProcessStarter.FixArgument(path)
-            );
         }
 
         public void Clone(
@@ -126,7 +21,7 @@ namespace gitter
         {
             Clone(
                 sourceDir,
-                ProcessStarter.FixArgument(Environment.CurrentDirectory)
+                ConsoleArgumentFormatter.FixArgument(Environment.CurrentDirectory)
             );
         }
 
@@ -148,15 +43,14 @@ namespace gitter
             Console.WriteLine ("Cloning...");
             Console.WriteLine ("Source: " + sourceDir);
             Console.WriteLine ("Destination: " + destinationDir);
-            Console.WriteLine ("Working directory: " + WorkingDirectory);
 
             // Create a temporary directory path to clone to
             // (the temporary folder works around the issue of cloning into existing directory)
             var tmpDir = Path.Combine(destinationDir, "_tmpclone");
 
-            var relativeSourceDir = ProcessStarter.FixArgument (sourceDir);
+            var relativeSourceDir = ConsoleArgumentFormatter.FixArgument (sourceDir);
 
-            var relativeTmpDir = ProcessStarter.FixArgument (tmpDir);
+            var relativeTmpDir = ConsoleArgumentFormatter.FixArgument (tmpDir);
 
             var args = new List<string> ();
 
@@ -169,7 +63,7 @@ namespace gitter
             args.Add ("\"" + relativeTmpDir + "\"");
             args.Add ("--verbose");
 
-            Git (args.ToArray());
+            GitProcess.Run (Environment.CurrentDirectory, args.ToArray());
 
             DirectoryMover.Move(tmpDir, destinationDir, true);
 
@@ -179,131 +73,23 @@ namespace gitter
 
         }
 
-        public void Commit ()
+        public GitRepository Init()
         {
-            Commit ("Committing added/changed files");
+            return Init (Environment.CurrentDirectory);
         }
 
-        public void Commit (string message)
+        public GitRepository Init(string workingDirectory)
         {
-            Console.WriteLine ("Committing added/changed files...");
+            Console.WriteLine ("Initializing repository");
 
-            Git ("commit", "-a", "-m:'" + message + "'");
+            GitProcess.Run (workingDirectory, "init");
+
+            return Open (workingDirectory);
         }
 
-        public void CommitTo (string directory)
+        public GitRepository Open(string workingDirectory)
         {
-            CommitTo ("");
-        }
-
-        public void CommitTo (string directory, string message)
-        {
-            Console.WriteLine ("Committing added/changed files...");
-
-            GitIn (directory, "commit", "-a", "-m:'" + message + "'");
-        }
-
-        public void Init()
-        {
-            Console.WriteLine ("Initializing repository:");
-            Console.WriteLine ("Path: " + Environment.CurrentDirectory);
-
-            Git ("init");
-        }
-
-        public void Init(string path)
-        {
-            Console.WriteLine ("Initializing repository:");
-            Console.WriteLine ("Path: " + path);
-
-            Environment.CurrentDirectory = path;
-
-            Git ("init");
-        }
-
-        public void Pull(string remote)
-        {
-            Git ("pull", remote);
-        }
-
-        public void Pull()
-        {
-            Git ("pull", "-all");
-        }
-
-        public void PullTo(string directory, string remote)
-        {
-            GitIn (directory, "pull", remote, "master"); // Should branch be left out?
-        }
-
-        public void Push(string remote)
-        {
-            Git ("push", remote);
-        }
-
-        public void Push(string remote, string branch)
-        {
-            Git ("push", remote, branch);
-        }
-
-        public void Push(string remote, string branch, params string[] arguments)
-        {
-            var list = new List<string>();
-            list.Add("push");
-            list.Add(remote);
-            list.Add(branch);
-            list.AddRange(arguments);
-            Git (list.ToArray());
-        }
-
-        public void PushFrom(string directory, string remote)
-        {
-            var originalDirectory = Environment.CurrentDirectory;
-
-            Environment.CurrentDirectory = directory;
-
-            Push(remote);
-
-            Environment.CurrentDirectory = originalDirectory;
-        }
-
-        public void PushFromDirectoryToDirectory (string directory, string destination)
-        {
-            Console.WriteLine ("");
-            Console.WriteLine ("Pushing git from:");
-            Console.WriteLine (directory);
-            Console.WriteLine ("To:");
-            Console.WriteLine (destination);
-            Console.WriteLine ("");
-
-            GitIn (directory, "push", ProcessStarter.FixArgument(destination));
-        }
-
-        public void Move(string fromPath, string toPath)
-        {
-            Git("mv", ProcessStarter.FixArgument(fromPath), ProcessStarter.FixArgument(toPath));
-        }
-
-        public void Reset(params string[] arguments)
-        {
-            Git("reset", arguments);
-        }
-
-        public void Branch(string branchName)
-        {
-            Branch (branchName, false);
-        }
-
-        public void Branch(string branchName, bool checkoutNewBranch)
-        {
-            Git ("branch " + branchName);
-            if (checkoutNewBranch)
-                Checkout(branchName);
-        }
-
-        public void Checkout(string branchName)
-        {
-            Git ("checkout", branchName);
+            return new GitRepository (workingDirectory);
         }
     }
 }
