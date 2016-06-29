@@ -35,6 +35,10 @@
     <Compile Include="Gitter.cs" />
     <Compile Include="ProcessStarter.cs" />
     <Compile Include="DirectoryMover.cs" />
+    <Compile Include="GitRepository.cs" />
+    <Compile Include="GitProcessStarter.cs" />
+    <Compile Include="DirectoryLocation.cs" />
+    <Compile Include="ConsoleArgumentFormatter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

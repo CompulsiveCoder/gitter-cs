@@ -15,7 +15,6 @@ namespace gitter.Tests.Integration
             Console.WriteLine ("===== Preparing Test =====");
             Console.WriteLine ("");
 
-            var gitter = new Gitter ();
 
             var testProjectName = "TestProject";
 
@@ -34,12 +33,14 @@ namespace gitter.Tests.Integration
             // Move to the test project directory
             Directory.SetCurrentDirectory (testProjectDir);
 
+            var gitter = new Gitter ();
+
             Console.WriteLine ("");
             Console.WriteLine ("===== Executing Test =====");
             Console.WriteLine ("");
 
             // Initialize source git repo
-            gitter.Init (testProjectDir);
+            var repo = gitter.Init ();
 
             var testFileName = "TestFile.txt";
 
@@ -56,12 +57,12 @@ namespace gitter.Tests.Integration
             Console.WriteLine ("Adding test file...");
 
             // Add the test file
-            gitter.Add(testFilePath);
+            repo.Add(testFilePath);
 
             Console.WriteLine ("Committing...");
 
             // Commit the test file
-            gitter.Commit ();
+            repo.Commit ();
 
             Console.WriteLine ("Cloning...");
 
