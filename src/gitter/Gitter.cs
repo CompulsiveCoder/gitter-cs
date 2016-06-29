@@ -82,6 +82,9 @@ namespace gitter
         {
             Console.WriteLine ("Initializing repository");
 
+            if (!Directory.Exists (workingDirectory))
+                Directory.CreateDirectory (workingDirectory);
+
             GitProcess.Run (workingDirectory, "init");
 
             return Open (workingDirectory);
@@ -90,6 +93,13 @@ namespace gitter
         public GitRepository Open(string workingDirectory)
         {
             return new GitRepository (workingDirectory);
+        }
+
+        public bool IsRepository(string repositoryDirectory)
+        {
+            var gitDir = Path.Combine (repositoryDirectory, ".git");
+
+            return Directory.Exists (gitDir);
         }
     }
 }
