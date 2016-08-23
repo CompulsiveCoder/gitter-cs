@@ -23,6 +23,8 @@ fi
 
 git clone https://github.com/CompulsiveCoder/gitter-cs.git .tmp/gitter-cs --branch $BRANCH
 cd .tmp/gitter-cs && \
-sh init-build-test.sh && \
+sh init.sh && \
+sh build.sh && \
+sh test.sh && \
 cd $DIR && \
 rm .tmp/gitter-cs -rf
