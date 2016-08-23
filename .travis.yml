@@ -2,9 +2,13 @@ sudo: required
 
 language: c#
 
+services:
+  - docker
+
 env:
   - TEST_SUITE=Unit
   - TEST_SUITE=Integration
 
 script:
-  - sh prepare-and-test.sh $TEST_SUITE
+  - git checkout $TRAVIS_BRANCH
+  - sh test-from-github-via-docker.sh
