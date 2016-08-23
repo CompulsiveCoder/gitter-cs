@@ -11,4 +11,4 @@ env:
 
 script:
   - git checkout $TRAVIS_BRANCH
-  - sh test-from-github-via-docker.sh
+  - sh test-from-github-via-docker.sh $TRAVIS_BRANCH
