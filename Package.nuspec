@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>gitter</id>
+    <version>1.0.0</version>
+    <authors>compulsivecoder</authors>
+    <owners>compulsivecoder</owners>
+    <projectUrl>https://github.com/CompulsiveCoder/gitter-cs</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A c# based git client.</description>
+    <copyright>Copyright 2017</copyright>
+    <tags>git c#</tags>
+  </metadata>
+  <files>
+      <file src="bin/Release/**" target="lib/net40" />
+  </files>
+</package>
