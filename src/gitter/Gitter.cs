@@ -22,48 +22,46 @@ namespace gitter
         public ProcessStarter ProcessStarter { get;set; }
         public DirectoryMover DirectoryMover { get; set; }
 
+		public string GitExecutable = "git";
+
         public Gitter ()
         {
             ProcessStarter = new ProcessStarter();
             DirectoryMover = new DirectoryMover ();
         }
 
-        public void Git(string command, params string[] arguments)
+        public string Git(string command, params string[] arguments)
         {
             var list = new List<string>();
             list.Add(command);
             list.AddRange(arguments);
 
-            Git(list.ToArray());
+            return Git(list.ToArray());
         }
 
-        public void Git(params string[] arguments)
+        public string Git(params string[] arguments)
         {
-            // TODO: Make this configurable and ensure it works on windows
-            var gitExe = "git";
-
             ProcessStarter.Start(
-                gitExe,
+				GitExecutable,
                 arguments
             );
+
+			return ProcessStarter.Output;
         }
 
-        public void GitIn(string workingDirectory, params string[] arguments)
+		public string GitIn(string workingDirectory, params string[] arguments)
         {
             var originalDir = Environment.CurrentDirectory;
 
             Environment.CurrentDirectory = workingDirectory;
 
-            Git(arguments);
+            return Git(arguments);
 
             Environment.CurrentDirectory = originalDir;
         }
 
         public void Add(string file)
         {
-            // TODO: Reimplement or remove
-            //var relativePath = PathUtility.EnsureRelative (file, Environment.CurrentDirectory);
-
             Console.WriteLine ("");
             Console.WriteLine ("Adding file to git:");
             Console.WriteLine ("  " + file);
@@ -76,7 +74,6 @@ namespace gitter
 
         public void AddTo(string path, string file)
         {
-
             Console.WriteLine ("");
             Console.WriteLine ("Adding file to git:");
             Console.WriteLine (file);
@@ -221,14 +218,20 @@ namespace gitter
             Git ("init");
         }
 
-        public void Pull(string remote)
+        public bool Pull(string remote)
         {
-            Git ("pull", remote);
+			var output = Git ("pull", remote);
+
+			// If the "up-to-date" text is found then return false because no changes were detected 
+			return !output.Contains ("Already up-to-date");
         }
 
-        public void Pull()
+        public bool Pull()
         {
-            Git ("pull", "-all");
+            var output = Git ("pull", "-all");
+
+			// If the "up-to-date" text is found then return false because no changes were detected 
+			return !output.Contains ("Already up-to-date");
         }
 
         public void PullTo(string directory, string remote)
@@ -289,22 +292,35 @@ namespace gitter
             Git("reset", arguments);
         }
 
+		public string Branch()
+		{
+			return Branch ("", false);
+		}
+
         public void Branch(string branchName)
         {
             Branch (branchName, false);
         }
 
-        public void Branch(string branchName, bool checkoutNewBranch)
+        public string Branch(string branchName, bool checkoutNewBranch)
         {
-            Git ("branch " + branchName);
+            var output = Git ("branch " + branchName);
             if (checkoutNewBranch)
                 Checkout(branchName);
+			return output;
         }
 
         public void Checkout(string branchName)
         {
             Git ("checkout", branchName);
         }
+
+		public bool IsInitialized(string directoryPath)
+		{
+			var gitFolderPath = Path.Combine (directoryPath, ".git");
+
+			return Directory.Exists (gitFolderPath);
+		}
     }
 }
 

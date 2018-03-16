@@ -19,7 +19,21 @@ namespace gitter.Tests.Unit
 
             Assert.IsTrue (gitDirExists);
         }
-     
+
+		[Test]
+		public void Test_IsInitialized()
+		{
+			var gitter = new Gitter ();
+
+			var repoDir = Path.GetFullPath ("WorkingDir");
+
+			var gitDir = Path.Combine(repoDir, ".git");
+
+			Directory.CreateDirectory (repoDir);
+			Directory.CreateDirectory (gitDir);
+
+			Assert.IsTrue (gitter.IsInitialized(repoDir));
+		}
 
         //[Test]
         public void Test_AddFile()
