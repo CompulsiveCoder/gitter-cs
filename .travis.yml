@@ -10,7 +10,7 @@ env:
   - TEST_SUITE=Integration
 
 install:
-  - git fetch master
+  - git fetch origin master
   - git checkout $TRAVIS_BRANCH
   - #sh prepare.sh
   - #sh init.sh
