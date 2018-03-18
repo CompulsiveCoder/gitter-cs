@@ -11,6 +11,7 @@ namespace gitter.Tests.Unit
         public void Test_Init()
         {
             var gitter = new Gitter ();
+
             gitter.Init ();
 
             var gitDir = Path.GetFullPath (".git");

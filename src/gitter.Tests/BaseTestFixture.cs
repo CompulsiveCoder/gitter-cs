@@ -9,7 +9,7 @@ namespace gitter.Tests
         public string OriginalDirectory;
         public string TemporaryDirectory;
 
-        public bool DeleteTemporaryDirectory = false;
+        public bool DeleteTemporaryDirectory = true;
 
         public BaseTestFixture ()
         {
