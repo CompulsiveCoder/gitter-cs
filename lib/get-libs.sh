@@ -1,6 +1,8 @@
 echo "Getting libraries"
 echo "Dir: $PWD"
 
+cert-sync --quiet /etc/ssl/certs/ca-certificates.crt
+
 NUGET_FILE="nuget.exe"
 
 if [ ! -f "$NUGET_FILE" ];
