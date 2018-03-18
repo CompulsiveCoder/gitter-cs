@@ -10,10 +10,11 @@ env:
   - TEST_SUITE=Integration
 
 install:
+  - get fetch master
   - git checkout $TRAVIS_BRANCH
-  - sh prepare.sh
-  - sh init.sh
+  - #sh prepare.sh
+  - #sh init.sh
   - git remote set-url origin https://${GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git
 
 script:
-  - sh test-and-graduate.sh
+  - sh graduate.sh
