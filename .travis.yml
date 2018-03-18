@@ -12,7 +12,7 @@ env:
 install:
   - sh prepare.sh
   - sh init.sh
-  - git remote set-url origin https://{GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git
+  - git remote set-url origin https://${GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git
 
 script:
   - sh test-and-graduate.sh
