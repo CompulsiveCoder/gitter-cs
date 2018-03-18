@@ -4,8 +4,6 @@ pipeline {
         pollSCM 'H/2 * * * *'
     }
     stages {
-<<<<<<< HEAD
-=======
         stage('Checkout') {
             steps {
                 checkout scm
@@ -17,7 +15,6 @@ pipeline {
                 sh 'sh set-gittercs-git-credentials.sh'
             }
         }
->>>>>>> dev
         stage('Init') {
             steps {
                 sh 'sh init.sh'
@@ -33,27 +30,15 @@ pipeline {
                 sh 'sh test.sh'
             }
         }
-<<<<<<< HEAD
-=======
         stage('Graduate') {
             steps {
                 sh 'sh graduate.sh'
             }
         }
-        stage('Clean') {
-            steps {
-              cleanWs()
-            }
-        }
->>>>>>> dev
     }
     post {
         always {
             cleanWs()
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> dev
