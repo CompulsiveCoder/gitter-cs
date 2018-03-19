@@ -14,3 +14,5 @@ script:
   - sh test-and-graduate.sh
   - sh nuget-set-api-key.sh "${NUGETTOKEN}"
   - sh nuget-pack-and-push.sh
+  - git commit -am "Updated version [skip ci]"
+  - git push origin $branch
