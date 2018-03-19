@@ -6,12 +6,12 @@ install:
   - git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master
   - git fetch --no-tags
   - git checkout $TRAVIS_BRANCH
-  - sh prepare.sh
-  - sh init.sh
+  - #sh prepare.sh
+  - #sh init.sh
   - git remote set-url origin https://${GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git
 
 script:
-  - sh test-and-graduate.sh
-  - sh nuget-set-api-key.sh "${NUGETTOKEN}"
-  - sh nuget-pack-and-push.sh
+  - #sh test-and-graduate.sh
+  - #sh nuget-set-api-key.sh "${NUGETTOKEN}"
+  - #sh nuget-pack-and-push.sh
   - sh push-version.sh
