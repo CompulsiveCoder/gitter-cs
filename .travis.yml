@@ -12,9 +12,9 @@ install:
   - git checkout $TRAVIS_BRANCH
   - sh prepare.sh
   - sh init.sh
-  - sh nuget-set-api-key.sh ${NUGETTOKEN}
   - git remote set-url origin https://${GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git
 
 script:
   - sh test-and-graduate.sh
+  - sh nuget-set-api-key.sh "${NUGETTOKEN}"
   - sh nuget-pack-and-push.sh
