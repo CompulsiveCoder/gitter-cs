@@ -9,5 +9,5 @@ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328
 sudo echo "deb http://download.mono-project.com/repo/debian wheezy main" > mono-xamarin.list
 sudo cp mono-xamarin.list /etc/apt/sources.list.d/mono-xamarin.list
 
-sudo apt-get update
+sudo apt-get update -qq
 sudo apt-get install -y --no-install-recommends git wget mono-complete mono-devel msbuild ca-certificates-mono
