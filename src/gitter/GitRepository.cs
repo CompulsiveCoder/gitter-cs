@@ -52,15 +52,16 @@ namespace gitter
             );
         }
 
-        public void Pull(string remote)
+        public string Pull(string remote)
         {
-            GitProcess.Run ("pull", remote);
+            return GitProcess.Run ("pull", remote);
         }
 
-        public void Pull()
+        public string Pull()
         {
-            GitProcess.Run ("pull", "-all");
+            return GitProcess.Run ("pull", "-all");
         }
+        
         public void Push(string remote)
         {
             GitProcess.Run ("push", remote);
