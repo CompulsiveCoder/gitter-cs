@@ -52,14 +52,20 @@ namespace gitter
             );
         }
 
-        public string Pull(string remote)
+        public bool Pull(string remote)
         {
-            return GitProcess.Run ("pull", remote);
+            var output = GitProcess.Run ("pull", remote);
+
+			// If the "up-to-date" text is found then return false because no changes were detected 
+			return !output.Contains ("Already up-to-date");
         }
 
-        public string Pull()
+        public bool Pull()
         {
-            return GitProcess.Run ("pull", "-all");
+            var output = GitProcess.Run ("pull", "-all");
+
+			// If the "up-to-date" text is found then return false because no changes were detected 
+			return !output.Contains ("Already up-to-date");
         }
         
         public void Push(string remote)
