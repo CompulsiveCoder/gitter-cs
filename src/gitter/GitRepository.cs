@@ -59,6 +59,19 @@ namespace gitter
 			// If the "up-to-date" text is found then return false because no changes were detected 
 			return !output.Contains ("Already up-to-date");
         }
+        
+
+        public bool Pull(string remote, string branch)
+		{
+			Console.WriteLine ("Git Pull");
+			Console.WriteLine ("Remote: " + remote);
+			Console.WriteLine ("Branch: " + branch);
+
+			var output = GitProcess.Run (Location.WorkingDirectory, "pull", remote, branch);
+
+			// If the "up-to-date" text is found then return false because no changes were detected 
+			return !output.Contains ("Already up-to-date");
+        }
 
         public bool Pull()
         {
