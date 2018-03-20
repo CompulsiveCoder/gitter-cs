@@ -25,7 +25,7 @@ namespace gitter
             Console.WriteLine ("Adding file to git:");
             Console.WriteLine ("  " + file);
             Console.WriteLine ("Working directory:");
-            Console.WriteLine ("  " + Environment.CurrentDirectory);
+			Console.WriteLine ("  " + Location.WorkingDirectory);
             Console.WriteLine ("");
 
             GitProcess.Run (Location.WorkingDirectory, "add", "\"" + ConsoleArgumentFormatter.FixArgument(file) + "\"");
