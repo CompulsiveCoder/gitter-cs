@@ -5,15 +5,12 @@ namespace gitter
 {
     public class GitRepository
     {
-        public string WorkingDirectory;
-
         public GitProcessStarter GitProcess;
 
         public DirectoryLocation Location;
 
         public GitRepository (string workingDirectory)
         {
-            WorkingDirectory = workingDirectory;
             Location = new DirectoryLocation (workingDirectory);
             GitProcess = new GitProcessStarter ();
         }
@@ -53,8 +50,11 @@ namespace gitter
         }
 
         public bool Pull(string remote)
-        {
-            var output = GitProcess.Run ("pull", remote);
+		{
+			Console.WriteLine ("Git Pull");
+			Console.WriteLine ("Remote: " + remote);
+
+			var output = GitProcess.Run (Location.WorkingDirectory, "pull", remote);
 
 			// If the "up-to-date" text is found then return false because no changes were detected 
 			return !output.Contains ("Already up-to-date");
@@ -62,7 +62,7 @@ namespace gitter
 
         public bool Pull()
         {
-            var output = GitProcess.Run ("pull", "-all");
+			var output = GitProcess.Run (Location.WorkingDirectory, "pull", "--all");
 
 			// If the "up-to-date" text is found then return false because no changes were detected 
 			return !output.Contains ("Already up-to-date");
