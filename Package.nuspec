@@ -12,6 +12,6 @@
     <tags>git c#</tags>
   </metadata>
   <files>
-      <file src="bin/Release/**" target="lib/net40" />
+      <file src="bin/Release/gitter.dll" target="lib/net40" />
   </files>
 </package>
