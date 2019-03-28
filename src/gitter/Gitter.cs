@@ -6,49 +6,50 @@ namespace gitter
 {
     public class Gitter
     {
-        public GitProcessStarter GitProcess { get;set; }
+        public GitProcessStarter GitProcess { get; set; }
+
         public DirectoryMover DirectoryMover { get; set; }
 
-		public string GitExecutable = "git";
+        public string GitExecutable = "git";
 
         public Gitter ()
         {
-            GitProcess = new GitProcessStarter();
+            GitProcess = new GitProcessStarter ();
             DirectoryMover = new DirectoryMover ();
         }
 
-        public void Clone(
+        public void Clone (
             string sourceDir
         )
         {
-            Clone(
+            Clone (
                 sourceDir,
-                ConsoleArgumentFormatter.FixArgument(Environment.CurrentDirectory)
+                ConsoleArgumentFormatter.FixArgument (Environment.CurrentDirectory)
             );
         }
 
-        public void Clone(
+        public void Clone (
             string sourceDir,
             string destinationDir
         )
         {
-            Clone(sourceDir, "", destinationDir);
+            Clone (sourceDir, "", destinationDir);
         }
 
-        public void Clone(
+        public void Clone (
             string sourceDir,
             string branch,
             string destinationDir
         )
         {
-            Console.WriteLine("");
+            Console.WriteLine ("");
             Console.WriteLine ("Cloning...");
             Console.WriteLine ("Source: " + sourceDir);
             Console.WriteLine ("Destination: " + destinationDir);
 
             // Create a temporary directory path to clone to
             // (the temporary folder works around the issue of cloning into existing directory)
-            var tmpDir = Path.Combine(destinationDir, "_tmpclone");
+            var tmpDir = Path.Combine (destinationDir, "_tmpclone");
 
             var relativeSourceDir = ConsoleArgumentFormatter.FixArgument (sourceDir);
 
@@ -65,22 +66,22 @@ namespace gitter
             args.Add ("\"" + relativeTmpDir + "\"");
             args.Add ("--verbose");
 
-            GitProcess.Run (Environment.CurrentDirectory, args.ToArray());
+            GitProcess.Run (Environment.CurrentDirectory, args.ToArray ());
 
-            DirectoryMover.Move(tmpDir, destinationDir, true);
+            DirectoryMover.Move (tmpDir, destinationDir, true);
 
-            Console.WriteLine("");
-            Console.WriteLine("Complete");
-            Console.WriteLine("");
+            Console.WriteLine ("");
+            Console.WriteLine ("Complete");
+            Console.WriteLine ("");
 
         }
 
-        public GitRepository Init()
+        public GitRepository Init ()
         {
             return Init (Environment.CurrentDirectory);
         }
 
-        public GitRepository Init(string workingDirectory)
+        public GitRepository Init (string workingDirectory)
         {
             Console.WriteLine ("Initializing repository");
 
@@ -92,24 +93,39 @@ namespace gitter
             return Open (workingDirectory);
         }
 
-        public GitRepository Open(string workingDirectory)
+        public GitRepository Open (string workingDirectory)
         {
             return new GitRepository (workingDirectory);
         }
 
-        public bool IsRepository(string repositoryDirectory)
+        public bool IsRepository (string repositoryDirectory)
         {
             var gitDir = Path.Combine (repositoryDirectory, ".git");
 
             return Directory.Exists (gitDir);
         }
 
-		public bool IsInitialized(string directoryPath)
-		{
-			var gitFolderPath = Path.Combine (directoryPath, ".git");
+        public bool IsInitialized (string directoryPath)
+        {
+            var gitFolderPath = Path.Combine (directoryPath, ".git");
 
-			return Directory.Exists (gitFolderPath);
-		}
+            return Directory.Exists (gitFolderPath);
+        }
+
+        public bool IsWithinRepository (string path)
+        {
+            var dir = path;
+
+            while (dir != String.Empty && dir != "/") {
+                var gitDir = Path.Combine (dir, ".git");
+
+                if (Directory.Exists (gitDir))
+                    return true;
+
+                dir = Path.GetDirectoryName (dir);
+            }
+
+            return false;
+        }
     }
 }
-
