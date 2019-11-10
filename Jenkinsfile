@@ -4,15 +4,16 @@ pipeline {
         skipDefaultCheckout true
     }
     stages {
+        stage('CleanWSStart') {
+            steps {
+                deleteDir()
+            }
+        }
         stage('Checkout') {
             steps {
-                checkout scm
-
-                sh "git config --add remote.origin.fetch +refs/heads/master:refs/remotes/origin/master"
-                sh "git fetch --no-tags"
-                sh 'git checkout $BRANCH_NAME'
-                sh 'cp /usr/local/jenkins/set-gittercs-git-credentials.sh set-gittercs-git-credentials.sh'
-                sh 'sh set-gittercs-git-credentials.sh'
+                shHide( 'git clone -b $BRANCH_NAME https://${GHTOKEN}@github.com/CompulsiveCoder/gitter-cs.git .' )
+                sh 'git config --global user.email "compulsivecoder@gmail.com"'
+                sh 'git config --global user.name "CompulsiveCoderCI"'
             }
         }
         stage('Init') {
@@ -35,6 +36,11 @@ pipeline {
                 sh 'sh graduate.sh'
             }
         }
+        stage('CleanWSEnd') {
+            steps {
+                deleteDir()
+            }
+        }
     }
     post {
         always {
@@ -42,3 +48,7 @@ pipeline {
         }
     }
 }
+def shHide(cmd) {
+    sh('#!/bin/sh -e\n' + cmd)
+}
+

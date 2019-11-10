@@ -3,4 +3,4 @@ echo "Dir: $PWD"
 
 DIR=$PWD
 
-msbuild src/gitter.sln /p:Configuration=Release
+xbuild src/gitter.sln /p:Configuration=Release
